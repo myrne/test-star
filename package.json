@@ -1,0 +1,31 @@
+{
+  "name": "test-star",
+  "description": "Minimal test runner for minimal tests.",
+  "keywords": [],
+  "version": "0.0.0",
+  "author": "Meryn Stol <merynstol@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/meryn/test-star",
+  "bugs": "https://github.com/meryn/test-star/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/meryn/test-star.git"
+  },
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "~1.6.2",
+    "mocha": "~1.9.0"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "main": "lib/test-star.js",
+  "scripts": {
+    "prepublish": "npm test",
+    "pretest": "make build",
+    "test": "make test"
+  }
+}
