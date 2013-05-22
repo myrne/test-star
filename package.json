@@ -12,17 +12,21 @@
     "url": "git://github.com/meryn/test-star.git"
   },
   "private": false,
-  "dependencies": {},
+  "dependencies": {
+    "performance-now": "~0.1.1"
+  },
   "devDependencies": {
     "coffee-script": "~1.6.2",
-    "mocha": "~1.9.0"
+    "mocha": "~1.9.0",
+    "mocha-as-promised": "~1.3.0",
+    "source-map-support": "~0.1.5"
   },
   "optionalDependencies": {},
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
   },
-  "main": "lib/test-star.js",
+  "main": "lib/TestStar.js",
   "scripts": {
     "prepublish": "npm test",
     "pretest": "make build",
