@@ -1,5 +1,3 @@
-lpad = require "lpad"
-
 module.exports = class OutlineWriter
   constructor: (@writeLine) ->
     @formatters = [new ItemFormatter]
