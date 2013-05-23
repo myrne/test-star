@@ -8,9 +8,11 @@ TestRun = require "./TestRun"
 ConsoleReporter = require "./ConsoleReporter"
 
 module.exports = class TestStar
-  constructor: (@options) ->
+  constructor: (@options = {}) ->
     @emitter = new EventEmitter
     @reporter = new ConsoleReporter @
+    @runOptions =
+      timeout: @options.timeout or 1900
   
   on: (name, fn) ->
     @emitter.on name, fn
@@ -26,7 +28,7 @@ module.exports = class TestStar
   
   runTests: (tests) ->
     @emit "before-tests", tests
-    testRuns = (new TestRun test, @ for test in tests)
+    testRuns = (new TestRun test, @, @runOptions for test in tests)
     startTime = now()
     forEachSeries(testRuns, (run) -> run.run()).then =>
       endTime = now()

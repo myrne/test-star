@@ -1,4 +1,4 @@
-{fulfill,fail} = require "faithful"
+{fulfill,fail,makePromise} = require "faithful"
 
 module.exports =
   "component a":
@@ -24,3 +24,5 @@ module.exports =
       setImmediate ->
         throw new Error "Yet another error that should be caught."
       true      
+  "compomnent e":
+    "does ee": -> makePromise -> "sorry I never return"
