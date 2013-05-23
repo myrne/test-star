@@ -3,7 +3,6 @@ now = require "performance-now"
 {EventEmitter} = require "events"
 
 Test = require "./Test"
-TestResult = require "./TestResult"
 TestRun = require "./TestRun"
 
 ConsoleReporter = require "./ConsoleReporter"
@@ -23,43 +22,22 @@ module.exports = class TestStar
     @runModule testModule for testModule in testModules
   
   runModule: (testModule) ->
-    tests = @extractTests testModule
+    @runTests @extractTests testModule
+  
+  runTests: (tests) ->
     @emit "before-tests", tests
+    testRuns = (new TestRun test, @ for test in tests)
     startTime = now()
-    @runTests(tests).then (runs) =>
+    forEachSeries(testRuns, (run) -> run.run()).then =>
       endTime = now()
       stats = 
-        total: runs.length
+        total: testRuns.length
         passed: 0
         failed: 0
         timeTaken: (endTime - startTime).toFixed 3
-      for run in runs
-        if run.result.passed then stats.passed++ else stats.failed++
+      for run in testRuns
+        if run.hasSucceeded() then stats.passed++ else stats.failed++
       @emitter.emit "stats", stats
-
-  runTests: (tests) ->
-    startTime = now()
-    runs = []
-    forEachSeries tests, @runTest,
-      handleResult: (result, i) =>
-        run = new TestRun result, startTime, now()
-        runs.push run
-        startTime = now()
-        @emit "after-test", run
-      getFinalValue: ->
-        runs
-
-  runTest: (test) =>
-    @emit "before-test", test
-    try
-      result = test.fn.call {}
-    catch error
-      return fulfill new TestResult test, false, error
-    ensurePromise(result)
-      .then (result) ->
-        new TestResult test, true
-      .then null, (err) ->
-        new TestResult test, false, err
 
   extractTests: (obj, path = []) ->
     tests = []
