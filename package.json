@@ -13,7 +13,8 @@
   },
   "private": false,
   "dependencies": {
-    "performance-now": "~0.1.1"
+    "performance-now": "~0.1.1",
+    "faithful": "~0.6.3"
   },
   "devDependencies": {
     "coffee-script": "~1.6.2",
