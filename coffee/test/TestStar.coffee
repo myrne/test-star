@@ -1,7 +1,7 @@
 require("source-map-support").install()
 require("mocha-as-promised")()
 
-TestStar = require "../"
+TestStar = require "../../"
 star = new TestStar
 
 describe "TestStar", ->

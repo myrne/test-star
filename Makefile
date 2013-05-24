@@ -1,13 +1,15 @@
 build:
-	mkdir -p lib
-	rm -rf lib/*
-	node_modules/.bin/coffee --compile -m --output lib/ src/
+	mkdir -p js
+	rm -rf js/*
+	node_modules/.bin/coffee --compile -m --output js/ coffee/
+	browserify js/fixtures/test.js --debug > public/test.js
+	coffee coffee/makeIndexHTML.coffee
 
 watch:
-	node_modules/.bin/coffee --watch --compile --output lib/ src/
+	node_modules/.bin/coffee --watch --compile --output js/ coffee/
 	
 test:
-	node_modules/.bin/mocha
+	node_modules/.bin/mocha js/test/*.js
 
 jumpstart:
 	curl -u 'meryn' https://api.github.com/user/repos -d '{"name":"test-star", "description":"Minimal test runner for minimal tests.","private":false}'

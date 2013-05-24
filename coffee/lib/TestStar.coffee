@@ -1,3 +1,5 @@
+require "process-events-shim"
+
 now = require "performance-now"
 {fulfill,forEachSeries,ensurePromise} = require "faithful"
 {EventEmitter} = require "events"
@@ -6,11 +8,15 @@ Test = require "./Test"
 TestRun = require "./TestRun"
 
 ConsoleReporter = require "./ConsoleReporter"
+HTMLReporter = require "./htmlReporter"
 
 module.exports = class TestStar
   constructor: (@options = {}) ->
     @emitter = new EventEmitter
-    @reporter = new ConsoleReporter @
+    if window? and false
+      @reporter = new HTMLReporter @
+    else
+      @reporter = new ConsoleReporter @
     @runOptions =
       timeout: @options.timeout or 1900
   
