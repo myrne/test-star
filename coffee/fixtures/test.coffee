@@ -1,5 +1,5 @@
 TestStar = require "../../"
-testModule = require "./testModule"
+testModule = require "./single/testModule"
 
 return unless window
 return unless window.document

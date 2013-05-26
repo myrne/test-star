@@ -7,4 +7,4 @@ star = new TestStar
 describe "TestStar", ->
   describe "runModule", ->
     it "runs a test module", ->
-      star.runModule require "../fixtures/testModule"
+      star.runModule require "../fixtures/single/testModule"
