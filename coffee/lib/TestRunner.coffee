@@ -36,12 +36,12 @@ module.exports = class TestRunner
     forEachSeries(subjects, @testSubject).then =>
       endTime = now()
       stats = 
-        total: subjects.length
+        totalSubjects: subjects.length
         correct: 0
         incorrect: 0
         timeTaken: (endTime - startTime).toFixed 3
       for subject in subjects 
-        if subject.isValid then stats.correct++ else stats.incorrect++
+        if subject.isCorrect then stats.correct++ else stats.incorrect++
       @emitter.emit "stats", stats
   
   testSubject: (subject) =>
