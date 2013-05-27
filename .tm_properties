@@ -1,5 +1,5 @@
 excludeDirectories = "{.git,node_modules}"
-excludeInFolderSearch = "{excludeDirectories,lib}"
+excludeInFolderSearch = "{excludeDirectories,lib,public}"
 
 includeFiles = "{.gitignore,.npmignore,.travis.yml}"
 excludeFiles = "*.map"
