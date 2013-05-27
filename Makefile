@@ -1,12 +1,12 @@
 build:
 	mkdir -p js
 	rm -rf js/*
-	node_modules/.bin/coffee --compile -m --output js/ coffee/
+	node_modules/.bin/coffee --compile --map --output js/ coffee/
 	browserify js/fixtures/test.js --debug > public/test.js
 	coffee coffee/makeIndexHTML.coffee
 
 watch:
-	node_modules/.bin/coffee --watch --compile --output js/ coffee/
+	node_modules/.bin/coffee --watch --compile --map --output js/ coffee/
 	
 test:
 	node_modules/.bin/mocha js/test/*.js
