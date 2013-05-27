@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+optimist = require("optimist")
+writeIndexJS = require("../js/lib/writeIndexJS")
+writeIndexJS(optimist.argv._[0])
+  

@@ -16,7 +16,8 @@
     "performance-now": "~0.1.1",
     "faithful": "~0.6.3",
     "process-events-shim": "~0.1.0",
-    "explorer": "0.0.5"
+    "explorer": "0.0.5",
+    "optimist": "~0.5.0"
   },
   "devDependencies": {
     "coffee-script": "~1.6.2",

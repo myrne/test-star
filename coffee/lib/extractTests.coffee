@@ -10,7 +10,6 @@ module.exports = extractTests = (index) ->
     switch components.shift()
       when "behavior"
         subject = makeSubject components
-        console.log subject.toString()
         subject.tests.push new Test subject, name, fn for name, fn of module
         suite.subjects.push subject
       when "state"

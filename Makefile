@@ -2,7 +2,8 @@ build:
 	mkdir -p js
 	rm -rf js/*
 	node_modules/.bin/coffee --compile --map --output js/ coffee/
-	browserify js/fixtures/test.js --debug > public/test.js
+	bin/writeIndex ./js/fixtures/test
+	browserify bin/ts --debug > public/test.js
 	coffee coffee/makeIndexHTML.coffee
 
 watch:
