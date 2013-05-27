@@ -1,3 +1,2 @@
 module.exports =
-  "compomnent e":
-    "does ee": -> makePromise -> "sorry I never return"
+  "does ee": -> makePromise -> "sorry I never return"
