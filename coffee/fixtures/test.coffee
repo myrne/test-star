@@ -1,11 +1,28 @@
-TestStar = require "../../"
-testModule = require "./single/testModule"
+require("source-map-support").install()
 
-return unless window
-return unless window.document
+stepthrough = require "stepthrough"
 
-global.abc = true
+extract = require "../lib/extractTests"
+writeIndexJS = require "../lib/writeIndexJS"
 
-window.document.addEventListener "DOMContentLoaded", ->
-  star = new TestStar
-  star.runModule testModule
+TestRunner = require "../lib/TestRunner"
+ConsoleReporter = require "../lib/ConsoleReporter"
+
+testsDir = __dirname + "/tests"
+
+loadEventually = (fn) ->
+  if window? and window.document
+    window.document.addEventListener "DOMContentLoaded", fn
+  else
+    setImmediate fn
+
+loadEventually ->
+  writeIndexJS(testsDir)
+    .then ->
+      suite = extract require testsDir
+      runner = new TestRunner
+      reporter = new ConsoleReporter runner
+      runner.testSubjects suite.subjects
+    .then null, (err) -> 
+      console.log err
+      console.log err.stack

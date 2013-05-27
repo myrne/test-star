@@ -7,10 +7,20 @@ module.exports = class ConsoleReporter
     @star.on "before-tests", (tests) =>
       @writer.write ""
       @writer.indent "•"
-      # console.log ""
-      # console.log "GOING TO TEST:"
-      # console.log "  " + test.toString() for test in tests
+      console.log ""
+      console.log "GOING TO TEST:"
+      console.log "  " + test.toString() for test in tests
     
+    @star.on "before-subject", (subject) =>
+      @writer.indent ""
+      @writer.write ""
+      @writer.write "Testing #{subject}"
+      @writer.indent ""
+
+    @star.on "after-subject", (subject) =>
+      @writer.dedent ""
+      @writer.dedent ""
+      
     @star.on "before-test", (test) =>
       # console.log "Testing #{test.toString()}"
       
@@ -25,7 +35,7 @@ module.exports = class ConsoleReporter
       @writer.dedent()  
     
     @star.on "stats", (stats) =>
-      @writer.dedent()
+      # @writer.dedent()
       @writer.write ""
       @writer.write "Test statistics:"
       @writer.indent()

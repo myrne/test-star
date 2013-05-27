@@ -1,6 +1,5 @@
 module.exports = class Test
-  constructor: (@path, @fn) ->
-  getFullName: ->
-    @path.join " -> "
+  constructor: (@subject, @name, @fn) ->
+
   toString: ->
-    @getFullName()
+    "#{@subject} #{@name}"
