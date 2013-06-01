@@ -1,20 +1,19 @@
 Test = require "./Test"
 TestSubject = require "./TestSubject"
+TestSuite = require "./TestSuite"
 
 module.exports = extractTests = (index) ->
-  suite = 
-    subjects: []
-    states: {}
+  suite = new TestSuite
   for path, module of index
     components = path.split "/"
     switch components.shift()
       when "behavior"
         subject = makeSubject components
-        subject.tests.push new Test subject, name, fn for name, fn of module
-        suite.subjects.push subject
+        subject.addTest new Test subject, name, fn for name, fn of module
+        suite.addSubject subject
       when "state"
         path = components.join "/"
-        suite.states[path] = new StateSpecification path, module
+        suite.addState new StateSpecification path, module
   suite
 
 makeSubject = (components) ->

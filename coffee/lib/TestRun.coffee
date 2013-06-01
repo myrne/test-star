@@ -2,7 +2,7 @@ now = require "performance-now"
 {makePromise,ensurePromise,fulfill,fail,forceTimeout} = require "faithful"
 
 module.exports = class TestRun
-  constructor: (@test, @star, @options) ->
+  constructor: (@test, @timeout = 1900) ->
     @hasRun = false
     @running = false
     @uncaughtExceptions = []
@@ -17,7 +17,6 @@ module.exports = class TestRun
       "#{@test.toString()} (not run yet)"
   
   run: ->
-    @star.emit "before-test", @test
     @startTime = now()
     @running = true
     @runUntimed().then (result) =>
@@ -25,7 +24,6 @@ module.exports = class TestRun
       @hasRun = true
       @endTime = now()
       @result = result
-      @star.emit "after-test", @
       result
   
   handleUncaughtException: (err) =>
@@ -40,7 +38,7 @@ module.exports = class TestRun
           result = @test.fn.call {}
         catch error
           return cb null, new FailResult error
-        forceTimeout(@options.timeout, ensurePromise(result))
+        forceTimeout(@timeout, ensurePromise(result))
           .then (result) =>
             process.removeAllListeners "uncaughtException"
             if @uncaughtExceptions.length

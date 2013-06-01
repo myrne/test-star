@@ -1,8 +1,8 @@
 require "process-events-shim"
+require("source-map-support").install()
 
 stepthrough = require "stepthrough"
 extract = require "../lib/extractTests"
-TestRunner = require "../lib/TestRunner"
 ConsoleReporter = require "../lib/ConsoleReporter"
 
 testIndex = require "../fixtures/test/index.js"
@@ -10,12 +10,10 @@ testIndex = require "../fixtures/test/index.js"
 module.exports = run = ->
   loadEventually ->
     suite = extract testIndex
-    runner = new TestRunner
-    reporter = new ConsoleReporter runner
-    runner.testSubjects(suite.subjects)
-      .then null, (err) -> 
-        console.log err
-        console.log err.stack
+    reporter = new ConsoleReporter suite
+    suite.test().then null, (err) -> 
+      console.log err
+      console.log err.stack
 
 loadEventually = (fn) ->
   if window? and window.document

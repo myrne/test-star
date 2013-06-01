@@ -1,45 +1,56 @@
 OutlineWriter = require "./OutlineWriter"
 
 module.exports = class ConsoleReporter
-  constructor: (@star) ->
+  constructor: (@suite) ->
     @writer = new OutlineWriter console.log.bind console
-    
-    @star.on "before-tests", (tests) =>
-      @writer.write ""
-      @writer.indent "•"
-      console.log ""
-      console.log "GOING TO TEST:"
-      console.log "  " + test.toString() for test in tests
-    
-    @star.on "before-subject", (subject) =>
-      @writer.indent ""
-      @writer.write ""
-      @writer.write "Testing #{subject}"
-      @writer.indent ""
+    new SuiteConsoleReporter @writer, @suite
 
-    @star.on "after-subject", (subject) =>
-      @writer.dedent ""
-      @writer.dedent ""
-      
-    @star.on "before-test", (test) =>
-      # console.log "Testing #{test.toString()}"
-      
-    @star.on "after-test", (testRun) =>
-      @writer.write testRun.toString() 
-      return if testRun.hasSucceeded()
-      @writer.indent()
-      @writer.write "The following #{testRun.getErrors().length} errors occurred:"
-      @writer.indent "■"
-      @writer.write error.stack.toString() + "\n" for error in testRun.getErrors()
-      @writer.dedent()
-      @writer.dedent()  
+class SuiteConsoleReporter
+  constructor: (@writer, @suite) ->
+    new SubjectConsoleReporter @writer, subject for subject in @suite.subjects
+
+    @suite.on "before-subjects", =>
+      # @writer.write ""
+      @writer.indent ""
+      # console.log ""
+      # console.log "GOING TO TEST:"
+      # console.log "  " + test.toString() for test in tests
     
-    @star.on "stats", (stats) =>
-      # @writer.dedent()
+    @suite.on "after-subjects", =>
+      @writer.dedent()
+      # @writer.write ""
+      @writer.write "Suite statistics:"
+      @writer.indent()
+      @writer.indent()
+      @writer.write "#{name}: #{value}" for name, value of @suite.getStats()
+      @writer.dedent()
+      @writer.dedent()
+
+class SubjectConsoleReporter
+  constructor: (@writer, @subject) ->
+    new TestConsoleReporter @writer, test for test in @subject.tests
+    
+    @subject.on "before-tests", =>
+      # @writer.indent ""
+      @writer.write "Testing #{@subject}"
+      @writer.indent " "
+
+    @subject.on "after-tests", =>
       @writer.write ""
-      @writer.write "Test statistics:"
-      @writer.indent()
-      @writer.indent()
-      @writer.write "#{name}: #{value}" for name, value of stats
-      @writer.dedent()
-      @writer.dedent()
+      # @writer.dedent ""
+      # @writer.write "Subject statistics:"
+      # @writer.write "#{name}: #{value}" for name, value of @subject.getStats()
+      @writer.dedent ""
+
+class TestConsoleReporter
+  constructor: (@writer, @test) ->
+    @test.on "before-run", =>
+      # @writer.write "Testing #{test.toString()}"
+    
+    @test.on "after-run", =>
+      @writer.write @test.run.toString() 
+      # return if @test.run.hasSucceeded()
+      # @writer.write "The following #{@test.run.getErrors().length} errors occurred:"
+      # @writer.indent "■"
+      # @writer.write error.stack.toString() + "\n" for error in @test.run.getErrors()
+      # @writer.dedent()
