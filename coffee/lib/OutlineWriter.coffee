@@ -30,10 +30,8 @@ class ItemFormatter
     formatted = []
     lines = string.split "\n"
     return unless lines.length
-    firstLine = lines.shift()
-    formatted.push @firstPrefix + firstLine
-    for line in lines
-      formatted.push @furtherPrefix + line
+    formatted.push @firstPrefix + lines.shift()
+    formatted.push @furtherPrefix + line for line in lines
     formatted.join "\n"
   
 makePadding = (n) ->
