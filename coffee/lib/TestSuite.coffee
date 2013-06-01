@@ -32,4 +32,5 @@ module.exports = class TestSuite extends EventEmitter
       timeTaken: (@endTime - @startTime).toFixed 3
     for subject in @subjects
       if subject.getStats().isCorrect then @stats.correct++ else @stats.incorrect++
+    @stats.ok = @stats.incorrect is 0 and @stats.correct is @stats.totalSubject
     @stats
