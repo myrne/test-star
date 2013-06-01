@@ -10,7 +10,7 @@ watch:
 	node_modules/.bin/coffee --watch --compile --map --output js/ coffee/
 	
 test:
-	node_modules/.bin/mocha js/test/*.js
+	node_modules/.bin/mocha js/test/*.js --reporter spec
 
 jumpstart:
 	curl -u 'meryn' https://api.github.com/user/repos -d '{"name":"test-star", "description":"Minimal test runner for minimal tests.","private":false}'
