@@ -1,5 +1,7 @@
 # test-star [![Build Status](https://travis-ci.org/meryn/test-star.png?branch=master)](https://travis-ci.org/meryn/test-star) [![Dependency Status](https://david-dm.org/meryn/test-star.png)](https://david-dm.org/meryn/test-star)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/braveg1rl/test-star.svg)](https://greenkeeper.io/)
+
 Minimal test runner for minimal tests.
 
 ## Usage
